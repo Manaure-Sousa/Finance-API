@@ -12,7 +12,10 @@ namespace Finance_API.Models
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string Type { get; set; } = null!;
-        public string? Category { get; set; }
+
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
+
         public DateTime Date { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

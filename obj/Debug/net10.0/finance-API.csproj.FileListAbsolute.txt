@@ -150,3 +150,4 @@ C:\Users\manau\OneDrive\Área de Trabalho\Programação\FinanceAPI\obj\Debug\net
 C:\Users\manau\OneDrive\Área de Trabalho\Programação\FinanceAPI\obj\Debug\net10.0\finance-API.pdb
 C:\Users\manau\OneDrive\Área de Trabalho\Programação\FinanceAPI\obj\Debug\net10.0\finance-API.genruntimeconfig.cache
 C:\Users\manau\OneDrive\Área de Trabalho\Programação\FinanceAPI\obj\Debug\net10.0\ref\finance-API.dll
+C:\Users\manau\OneDrive\Área de Trabalho\Programação\FinanceAPI\obj\Debug\net10.0\finance-API.sourcelink.json
