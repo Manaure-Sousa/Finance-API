@@ -29,5 +29,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapTransactionsEndpoints();
+app.MapCategoriesEndpoints();
 
 app.Run();
