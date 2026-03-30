@@ -1,6 +1,7 @@
 using FinanceAPI.Models;
 using FinanceAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using FinanceAPI.DTOs;
 
 namespace FinanceAPI.Endpoints
 {
@@ -8,11 +9,12 @@ namespace FinanceAPI.Endpoints
     {
         public static void MapCategoriesEndpoints(this WebApplication app)
         {
-            app.MapPost("/categories", async (AppDbContext db, Category category) =>
+            app.MapPost("/categories", async (AppDbContext db, CreateCategoryDTO category) =>
             {
-                db.Categories.Add(category);
+                var newCategory = new Category(category);
+                db.Categories.Add(newCategory);
                 await db.SaveChangesAsync();
-                return Results.Created($"/categories/{category.Id}", category);
+                return Results.Created();
             });
 
             app.MapGet("/categories", async (AppDbContext db) =>
@@ -27,7 +29,7 @@ namespace FinanceAPI.Endpoints
                 return category != null ? Results.Ok(category) : Results.NotFound();
             });
 
-            app.MapPut("/categories/{id}", async (AppDbContext db, int id, Category updatedCategory) =>
+            app.MapPut("/categories/{id}", async (AppDbContext db, int id, CategoryDTO updatedCategory) =>
             {
                 var category = await db.Categories.FindAsync(id);
                 if (category == null) return Results.NotFound();

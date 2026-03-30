@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill //F //IM finance-API.exe)",
+      "Bash(dotnet build:*)"
+    ]
+  }
+}
