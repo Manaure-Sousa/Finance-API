@@ -24,6 +24,12 @@ namespace FinanceAPI.Endpoints
 
             transactionsGroup.MapPost("/", async (AppDbContext db, TransactionDTO dto) =>
             {
+                var category = await db.Transactions.FindAsync(dto.CategoryId);
+                if (category is null)
+                {
+                    return Results.BadRequest("Category not found.");
+                }
+
                 var transaction = new Transaction
                 {
                     Amount = dto.Amount,
@@ -37,18 +43,21 @@ namespace FinanceAPI.Endpoints
                 return Results.Created($"/transactions/{transaction.Id}", transaction);
             });
 
-            transactionsGroup.MapPut("/{id}", async (AppDbContext db, int id, Transaction newTransaction) =>
+            transactionsGroup.MapPut("/{id}", async (AppDbContext db, int id, TransactionDTO newTransaction) =>
             {
                 var transactionFind = await db.Transactions.FindAsync(id);
                 if (transactionFind is null)
                     return Results.NotFound("Transaction not found.");
 
+                var category = await db.Transactions.FindAsync(newTransaction.CategoryId);
+                if (category is null)
+                    return Results.BadRequest("Category not found.");
+
                 transactionFind.Amount = newTransaction.Amount;
                 transactionFind.Name = newTransaction.Name;
                 transactionFind.Description = newTransaction.Description;
                 transactionFind.Type = newTransaction.Type;
-                transactionFind.Category = newTransaction.Category; // modificar posteriormente => CategoryID
-                transactionFind.Date = newTransaction.Date;
+                transactionFind.CategoryId = newTransaction.CategoryId;
                 transactionFind.UpdatedAt = DateTime.UtcNow;
 
                 await db.SaveChangesAsync();
