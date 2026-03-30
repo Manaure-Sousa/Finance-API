@@ -1,4 +1,4 @@
-using Finance_API.Models;
+using FinanceAPI.Models;
 using FinanceAPI.Data;
 using FinanceAPI.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +24,13 @@ namespace FinanceAPI.Endpoints
 
             transactionsGroup.MapPost("/", async (AppDbContext db, TransactionDTO dto) =>
             {
-                var category = await db.Transactions.FindAsync(dto.CategoryId);
+                var category = await db.Categories.FindAsync(dto.CategoryId);
                 if (category is null)
                 {
                     return Results.BadRequest("Category not found.");
                 }
 
-                var transaction = new Transaction
+                var transaction = new FinanceAPI.Models.Transaction
                 {
                     Amount = dto.Amount,
                     Name = dto.Name,
@@ -49,7 +49,7 @@ namespace FinanceAPI.Endpoints
                 if (transactionFind is null)
                     return Results.NotFound("Transaction not found.");
 
-                var category = await db.Transactions.FindAsync(newTransaction.CategoryId);
+                var category = await db.Categories.FindAsync(newTransaction.CategoryId);
                 if (category is null)
                     return Results.BadRequest("Category not found.");
 

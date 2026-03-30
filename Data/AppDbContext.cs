@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Finance_API.Models;
+using FinanceAPI.Models;
 using FinanceAPI.Models.Enums;
 
 namespace FinanceAPI.Data

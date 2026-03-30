@@ -1,4 +1,4 @@
-using Finance_API.Models;
+using FinanceAPI.Models;
 using FinanceAPI.Data;
 using Microsoft.EntityFrameworkCore;
 

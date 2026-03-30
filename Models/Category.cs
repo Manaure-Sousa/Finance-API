@@ -1,8 +1,6 @@
-using Finance_API.Models;
 using FinanceAPI.Models.Enums;
-using Microsoft.EntityFrameworkCore;
 
-namespace Finance_API.Models
+namespace FinanceAPI.Models
 {
     public class Category
     {

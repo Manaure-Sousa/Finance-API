@@ -1,6 +1,6 @@
 using FinanceAPI.Models.Enums;
 
-namespace Finance_API.Models
+namespace FinanceAPI.Models
 {
     public class Transaction
     {

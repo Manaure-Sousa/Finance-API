@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Finance_API.Models;
+using FinanceAPI.Models;
 using FinanceAPI.Models.Enums;
 
 namespace FinanceAPI.DTOs
