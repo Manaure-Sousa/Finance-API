@@ -35,6 +35,7 @@ namespace FinanceAPI.Endpoints
                 if (category == null) return Results.NotFound();
 
                 category.Name = updatedCategory.Name;
+                category.Type = updatedCategory.Type;
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             });
