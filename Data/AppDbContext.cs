@@ -24,9 +24,9 @@ namespace FinanceAPI.Data
                 new Category { Id = 9, Name = "Assinaturas", Type = TransactionType.Expense },
                 new Category { Id = 10, Name = "Compras", Type = TransactionType.Expense },
                 new Category { Id = 11, Name = "Freelance", Type = TransactionType.Income },
-                new Category { Id = 13, Name = "Dividendos", Type = TransactionType.Investment },
-                new Category { Id = 14, Name = "Rendimentos", Type = TransactionType.Investment },
-                new Category { Id = 15, Name = "Outros", Type = TransactionType.Expense }
+                new Category { Id = 12, Name = "Dividendos", Type = TransactionType.Investment },
+                new Category { Id = 13, Name = "Rendimentos", Type = TransactionType.Investment },
+                new Category { Id = 14, Name = "Outros", Type = TransactionType.Expense }
             );
         }
     }
