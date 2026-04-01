@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using FinanceAPI.Data;
 using FinanceAPI.Endpoints;
 
@@ -30,6 +31,8 @@ if (app.Environment.IsDevelopment())
         config.DocExpansion = "list";
     });
 }
+
+app.UseExceptionHandler();
 
 app.MapTransactionsEndpoints();
 app.MapCategoriesEndpoints();
