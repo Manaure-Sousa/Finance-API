@@ -489,3 +489,5 @@ obj/
 ROADMAP.md
 CLAUDE.md
 .claude/
+finance.db-wal
+finance.db-shm
