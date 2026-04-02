@@ -1,7 +1,9 @@
 using FinanceAPI.Models;
 using FinanceAPI.Data;
 using FinanceAPI.DTOs;
+
 using Microsoft.EntityFrameworkCore;
+using FinanceAPI.Models.Enums;
 
 namespace FinanceAPI.Endpoints
 {
@@ -16,11 +18,71 @@ namespace FinanceAPI.Endpoints
                 return Results.Ok(await db.Transactions.ToListAsync());
             });
 
+            transactionsGroup.MapGet("/month", async (AppDbContext db, int? year = null, int? month = null) =>
+            {
+                var now = DateTime.UtcNow;
+                var targetYear = year ?? now.Year;
+                var targetMonth = month ?? now.Month;
+
+                var monthStart = new DateTime(targetYear, targetMonth, 1);
+                var monthEnd = monthStart.AddMonths(1);
+
+                var transactions = await db.Transactions.Include(t => t.Category).Where(t => t.Date >= monthStart && t.Date < monthEnd).OrderByDescending(t => t.Date).ToListAsync();
+
+                // Pode Melhorar com o tempo, mas por enquanto é o suficiente para calcular o saldo do período
+                var income = transactions
+                    .Where(t => t.Type == TransactionType.Income)
+                    .Sum(t => t.Amount);
+
+                var expenses = transactions
+                    .Where(t => t.Type == TransactionType.Expense)
+                    .Sum(t => t.Amount);
+
+                var periodBalance = income - expenses;
+
+                return Results.Ok(new TransactionPeriodResponse
+                {
+                    Transactions = transactions,
+                    PeriodBalance = periodBalance,
+                    PeriodStart = monthStart,
+                    PeriodEnd = monthEnd
+                });
+            });
+
+            transactionsGroup.MapGet("/week", async (AppDbContext db, int? year = null, int? week = null) =>
+            {
+                var now = DateTime.UtcNow;
+                var weekStart = now.AddDays(-(int)now.DayOfWeek).Date;
+                var weekEnd = weekStart.AddDays(7);
+
+                var transactions = await db.Transactions.Include(t => t.Category).Where(t => t.Date >= weekStart && t.Date < weekEnd).OrderByDescending(t => t.Date).ToListAsync();
+
+                // Pode Melhorar com o tempo, mas por enquanto é o suficiente para calcular o saldo do período
+                var income = transactions
+                    .Where(t => t.Type == TransactionType.Income)
+                    .Sum(t => t.Amount);
+
+                var expenses = transactions
+                    .Where(t => t.Type == TransactionType.Expense)
+                    .Sum(t => t.Amount);
+
+                var periodBalance = income - expenses;
+
+                return Results.Ok(new TransactionPeriodResponse
+                {
+                    Transactions = transactions,
+                    PeriodBalance = periodBalance,
+                    PeriodStart = weekStart,
+                    PeriodEnd = weekEnd
+                });
+            });
+
             transactionsGroup.MapGet("/{id}", async (AppDbContext db, int id) =>
                 await db.Transactions.FindAsync(id) is Transaction transactionFind
                     ? Results.Ok(transactionFind)
                     : Results.NotFound("Transaction not found.")
             );
+
 
             transactionsGroup.MapPost("/", async (AppDbContext db, TransactionDTO dto) =>
             {
