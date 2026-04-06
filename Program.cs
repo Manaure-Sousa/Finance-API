@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using FinanceAPI.Data;
 using FinanceAPI.Endpoints;
+using FinanceAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseExceptionHandler();
+app.UseGlobalExceptionHandler();
 
 app.MapTransactionsEndpoints();
 app.MapCategoriesEndpoints();
