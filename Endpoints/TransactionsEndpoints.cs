@@ -13,9 +13,26 @@ namespace FinanceAPI.Endpoints
         {
             var transactionsGroup = app.MapGroup("/transactions");
 
-            transactionsGroup.MapGet("/", async (AppDbContext db) =>
+            transactionsGroup.MapGet("/", async (AppDbContext db, int page = 1, int pageSize = 10) =>
             {
-                return Results.Ok(await db.Transactions.ToListAsync());
+                var skip = (page - 1) * pageSize;
+                var totalItems = await db.Transactions.CountAsync();
+
+                var transactions = await db.Transactions
+                    .Include(t => t.Category)
+                    .OrderByDescending(t => t.Date)
+                    .Skip(skip)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return Results.Ok(new TransactionsResponse
+                {
+                    Data = transactions,
+                    TotalBalance = transactions.Sum(t => t.Amount),
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
+                });
             });
 
             transactionsGroup.MapGet("/month", async (AppDbContext db, int? year = null, int? month = null) =>
