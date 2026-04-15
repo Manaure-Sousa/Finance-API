@@ -18,4 +18,8 @@
     <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="FinanceAPI.Tests\**\*.cs" />
+  </ItemGroup>
+
 </Project>

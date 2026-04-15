@@ -39,3 +39,5 @@ app.MapTransactionsEndpoints();
 app.MapCategoriesEndpoints();
 
 app.Run();
+
+public partial class Program { }
